@@ -12,5 +12,8 @@ func main() {
 	if err := sql.Connection(ctx, con); err != nil {
 		panic(err)
 	}
+
+
+	fmt.Println("test code for connection!!!!!!!!!!!!!!!")
 	fmt.Println("succes!")
 }
