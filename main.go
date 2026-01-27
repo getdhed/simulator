@@ -4,10 +4,19 @@ import (
 	"context"
 	"erp/sql"
 	"fmt"
+	"log"
+	"os"
+
+	"github.com/joho/godotenv"
 )
 
+func init(){
+	if err := godotenv.Load(); err!=nil{
+		log.Println(".env не найден, используем системные переменные")
+	}
+}
 func main() {
-	con := "postgresql://postgres.bvwrjsxqzvnezeakqjrj:DydsbRS3bN1228@aws-1-eu-west-2.pooler.supabase.com:5432/postgres"
+	con:=os.Getenv("SUPABASE_URL")
 	ctx := context.Background()
 	if err := sql.Connection(ctx, con); err != nil {
 		panic(err)
