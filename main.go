@@ -16,13 +16,17 @@ func init(){
 	}
 }
 func main() {
-	con:=os.Getenv("SUPABASE_URL")
+	constr:=os.Getenv("DATABASE_URL")
 	ctx := context.Background()
-	if err := sql.Connection(ctx, con); err != nil {
-		panic(err)
+
+	con, err := sql.Connection(ctx, constr)
+	if err != nil {
+		log.Fatal("Ошибка подключения: ", err) 
 	}
 
-
-	fmt.Println("test code for connection!!!!!!!!!!!!!!!")
 	fmt.Println("succes!")
+	if err:=sql.CreateTable(ctx,con); err!= nil{
+		fmt.Println("что то пошло не так")
+	}
+	
 }
