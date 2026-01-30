@@ -1,19 +1,17 @@
-package userimulator
+package models
 
 import "time"
 
 type WorkLog struct {
-	ID        int
 	UserID    int
 	StartTime time.Time
 	EndTime   time.Time
 	Comment   string
 }
-func (w *WorkLog)NewWorkLog(u User,st time.Time,end time.Time)*WorkLog{
+func NewWorkLog(u User,st time.Time,end time.Time)*WorkLog{
 	return &WorkLog{
-		//ID: ?,
-		UserID: u.id,
+		UserID: u.ID,
 		StartTime: st,
-EndTime: end,
+		EndTime: end,
 	}
 }
