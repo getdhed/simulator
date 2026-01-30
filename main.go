@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"erp/models"
 	"erp/sql"
 	"fmt"
 	"log"
@@ -10,23 +11,27 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func init(){
-	if err := godotenv.Load(); err!=nil{
+func init() {
+	if err := godotenv.Load(); err != nil {
 		log.Println(".env не найден, используем системные переменные")
 	}
 }
 func main() {
-	constr:=os.Getenv("DATABASE_URL")
+	constr := os.Getenv("DATABASE_URL")
 	ctx := context.Background()
 
 	con, err := sql.Connection(ctx, constr)
 	if err != nil {
-		log.Fatal("Ошибка подключения: ", err) 
+		log.Fatal("Ошибка подключения: ", err)
 	}
 
 	fmt.Println("succes!")
-	if err:=sql.CreateTable(ctx,con); err!= nil{
+	if err := sql.CreateTable(ctx, con); err != nil {
 		fmt.Println("что то пошло не так")
 	}
-	
+
+	u := models.NewUser(1, "polz 1", 20, "loh", 8, 8)
+	u.HourlyWage = 10
+	u.Work()
+
 }
