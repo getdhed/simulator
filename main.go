@@ -30,8 +30,9 @@ func main() {
 		fmt.Println("что то пошло не так")
 	}
 
-	u := models.NewUser(1, "polz 1", 20, "loh", 8, 8)
-	u.HourlyWage = 10
-	u.Work()
-
+	mp := models.NewUsers()
+	mp.InsertMap(20)
+	wm := models.NewWorkManager()
+	wm.StartShift(mp)
+	mp.PrintMap()
 }

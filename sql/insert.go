@@ -7,8 +7,10 @@ package sql
 // )
 
 // func Insert_db(ctx context.Context,con *pgx.Conn)error{
-
-// sqlquery:=`
-// insert into work_log (id, user_id,start_time,end_time,comment)
-// `
+// 	_, err := s.Pool.Exec(ctx,
+// 		`INSERT INTO users (id, name, age, profession, hourly_wage, balance)
+// 		 VALUES ($1,$2,$3,$4,$5,$6)`,
+// 		u.ID, u.Name, u.Age, u.Profession, u.HourlyWage, u.Balance,
+// 	)
+// 	return err
 // }

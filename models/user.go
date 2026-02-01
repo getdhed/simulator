@@ -1,9 +1,12 @@
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+	"strconv"
+)
 
 type User struct {
-	ID                int
 	Name              string
 	Age               int
 	Profession        string
@@ -13,14 +16,14 @@ type User struct {
 	Balance           float64
 }
 
-func NewUser(id int, name string, age int, profession string, slepping int, work_time int) *User {
+func newUser(id int) *User {
 	return &User{
-		ID:                id,
-		Name:              name,
-		Age:               age,
-		Profession:        profession,
-		Slepping_time:     slepping,
-		Average_work_time: work_time,
+		Name:              "person" + strconv.Itoa(id),
+		Age:               rand.Intn(82) + 18,
+		Profession:        "profession" + strconv.Itoa(id),
+		Slepping_time:     rand.Intn(10) + 2,
+		Average_work_time: rand.Intn(10) + 2,
+		HourlyWage:        float64(rand.Intn(41) + 10),
 	}
 }
 

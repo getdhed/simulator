@@ -8,10 +8,10 @@ type WorkLog struct {
 	EndTime   time.Time
 	Comment   string
 }
-func NewWorkLog(u User,st time.Time,end time.Time)*WorkLog{
+
+func NewWorkLog(u User, st time.Time, end time.Time) *WorkLog {
 	return &WorkLog{
-		UserID: u.ID,
 		StartTime: st,
-		EndTime: end,
+		EndTime:   end,
 	}
 }
