@@ -34,12 +34,18 @@ func (u *Users) InsertMap(n int) {
 func (u *Users) PrintMap() {
 	for id, user := range u.users {
 		fmt.Printf(
-			"ID: %d\n| Name: %s\n| Age: %d\n| Profession: %s\n| Balance: %s\n",
+			"ID: %d\n| Name: %s\n| Age: %d\n| Profession: %s\n| Balance: %f\n",
 			id,
 			user.Name,
 			user.Age,
 			user.Profession,
 			user.Balance,
 		)
+	}
+}
+
+func (u *Users) ForEach(fn func(*User)) {
+	for _, u := range u.users {
+		fn(u)
 	}
 }

@@ -11,7 +11,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func init() {
+func Init() {
 	if err := godotenv.Load(); err != nil {
 		log.Println(".env не найден, используем системные переменные")
 	}
@@ -33,6 +33,9 @@ func main() {
 	mp := models.NewUsers()
 	mp.InsertMap(20)
 	wm := models.NewWorkManager()
+	sqlStore := sql.NewPgUserStore(con)
+	mp.ForEach(func(u *models.User) { sqlStore.CreateUser(ctx, u) })
 	wm.StartShift(mp)
 	mp.PrintMap()
+
 }
