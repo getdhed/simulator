@@ -11,7 +11,7 @@ type User struct {
 	Name              string
 	Age               int
 	Profession        string
-	Slepping_time     int
+	Sleeping_time     int
 	Average_work_time int
 	HourlyWage        float64
 	Balance           float64
@@ -19,10 +19,11 @@ type User struct {
 
 func newUser(id int) *User {
 	return &User{
+		ID:                id,
 		Name:              "person" + strconv.Itoa(id),
 		Age:               rand.Intn(82) + 18,
 		Profession:        "profession" + strconv.Itoa(id),
-		Slepping_time:     rand.Intn(10) + 2,
+		Sleeping_time:     rand.Intn(10) + 2,
 		Average_work_time: rand.Intn(10) + 2,
 		HourlyWage:        float64(rand.Intn(41) + 10),
 	}

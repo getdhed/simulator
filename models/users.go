@@ -1,22 +1,40 @@
 package models
 
-import "fmt"
+import (
+	"context"
+	"fmt"
+)
 
 type Users struct {
 	users  map[int]*User
-	lastID int
+	nextID int
 }
 
 func NewUsers() *Users {
 	return &Users{
-		users: make(map[int]*User),
+		users:  make(map[int]*User),
+		nextID: 1,
 	}
+}
+func UsersFromDB(sl []*User) *Users {
+	u := &Users{
+		users:  make(map[int]*User),
+		nextID: 1,
+	}
+	for _, user := range sl {
+		u.users[user.ID] = user
+		if user.ID >= u.nextID {
+			u.nextID = user.ID + 1
+		}
+	}
+	return u
 }
 
 func (u *Users) Add() *User {
-	u.lastID++
-	user := newUser(u.lastID)
-	u.users[u.lastID] = user
+	id := u.nextID
+	user := newUser(id)
+	u.users[id] = user
+	u.nextID++
 	return user
 }
 
@@ -48,4 +66,13 @@ func (u *Users) ForEach(fn func(*User)) {
 	for _, u := range u.users {
 		fn(u)
 	}
+}
+
+func (u *Users) CreateAll(ctx context.Context, store UserStore) error {
+	for _, user := range u.users {
+		if err := store.CreateUser(ctx, user); err != nil {
+			return err
+		}
+	}
+	return nil
 }

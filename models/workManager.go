@@ -3,20 +3,18 @@ package models
 import "context"
 
 type WorkManager struct {
-	users *Users
+	store UserStore
 }
 
-func NewWorkManager() *WorkManager {
-	return &WorkManager{
-		users: NewUsers(),
-	}
+func NewWorkManager(store UserStore) *WorkManager {
+	return &WorkManager{store: store}
 }
-func (wm *WorkManager) StartShift(ctx context.Context,mp *Users, sqlStore *PgUserStore) {
-
+func (wm *WorkManager) StartShift(ctx context.Context, mp *Users) error {
 	for id, user := range mp.users {
-
 		earned := user.Work()
-		sqlStore.AddEarnings(ctx,earned,mp.users[id].ID)
-
+		if err := wm.store.AddEarnings(ctx, id, earned); err != nil {
+			return err
+		}
 	}
+	return nil
 }
