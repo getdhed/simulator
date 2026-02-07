@@ -42,7 +42,13 @@ func main() {
 
 	mp.CreateAll(ctx, sqlStore)
 
-	wm.StartShift(ctx, mp)
+	for day := 1; day <= 30; day++ {
+		res, err := wm.SimulateDay(ctx, day, mp)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("Day %d: workers=%d total=%.2f\n", res.Day, res.Workers, res.TotalEarned)
+	}
 	//mp.PrintMap()
 
 }

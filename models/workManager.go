@@ -9,12 +9,26 @@ type WorkManager struct {
 func NewWorkManager(store UserStore) *WorkManager {
 	return &WorkManager{store: store}
 }
-func (wm *WorkManager) StartShift(ctx context.Context, mp *Users) error {
-	for id, user := range mp.users {
-		earned := user.Work()
-		if err := wm.store.AddEarnings(ctx, id, earned); err != nil {
-			return err
-		}
+
+func (wm *WorkManager) SimulateDay(ctx context.Context, day int, users *Users) (DayResult, error) {
+	res := DayResult{
+		Day:     day,
+		PerUser: make(map[int]float64, len(users.users)),
 	}
-	return nil
+
+	for id, u := range users.users {
+		earned := u.Work()
+
+		// 1) сохранить в БД баланс
+		if err := wm.store.AddEarnings(ctx, id, earned); err != nil {
+			return DayResult{}, err
+		}
+
+		// 2) собрать статистику дня
+		res.Workers++
+		res.TotalEarned += earned
+		res.PerUser[id] = earned
+	}
+
+	return res, nil
 }
